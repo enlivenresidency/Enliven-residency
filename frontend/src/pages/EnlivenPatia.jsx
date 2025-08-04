@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import MiniBookingForm from "../components/MinibookingForm";
+import MiniBookingForm from "../components/MiniBookingForm";
 import { FaWhatsapp, FaPhone } from "react-icons/fa";
 import Amenities from "../components/Amenities";
 import RoomCarousel from "../components/RoomCarousel";
