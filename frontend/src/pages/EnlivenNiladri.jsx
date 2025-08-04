@@ -6,7 +6,7 @@ import { FaWhatsapp, FaPhone } from "react-icons/fa";
 import Amenities from "../components/Amenities";
 
 
-import MiniBookingForm from "../components/MinibookingForm";
+import MiniBookingForm from "../components/MiniBookingForm";
 import RoomCarousel from "../components/RoomCarousel";
 
 const images = [
