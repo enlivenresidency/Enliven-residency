@@ -14,7 +14,6 @@ const app = express();
 const JWT_SECRET = process.env.JWT_SECRET || 'your_secret_key';
 const nodemailer = require('nodemailer');
 
-
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -22,8 +21,6 @@ const transporter = nodemailer.createTransport({
     pass: process.env.SMTP_PASS,
   },
 });
-
-
 
 // Connect to MongoDB
 mongoose
@@ -198,14 +195,15 @@ app.post('/api/book', async (req, res) => {
       rooms: roomsCount,
       location: location.trim(),
       totalAmount,
+      // REMARK is NOT set in creation, so will default to ""
     });
 
     await booking.save();
-   const mailOptions = {
-  from: process.env.SMTP_USER,
-  to: process.env.OWNER_EMAIL,
-  subject: 'New Booking Received - Hotel Enliven',
-  text: `
+    const mailOptions = {
+      from: process.env.SMTP_USER,
+      to: process.env.OWNER_EMAIL,
+      subject: 'New Booking Received - Hotel Enliven',
+      text: `
 New booking received:
 Name: ${name}
 Phone: ${phone}
@@ -216,12 +214,11 @@ Children: ${children}
 Rooms: ${rooms}
 Location: ${location}
 Total Amount: ₹${totalAmount.toFixed(2)}
-  `
-};
-transporter.sendMail(mailOptions, (error, info) => {
-  if (error) console.error('Error sending notification email:', error);
-});
-
+      `
+    };
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) console.error('Error sending notification email:', error);
+    });
 
     // Respond with success
     res.json({
@@ -249,14 +246,14 @@ app.get('/api/bookings', authenticateToken, async (req, res) => {
   }
 });
 
-// Update booking (admin only)
+// Update booking (admin or manager can edit, including remark)
 app.put(
   '/api/bookings/:id',
   authenticateToken,
   authorizeRoles('admin'),
   async (req, res) => {
     try {
-      const updateData = req.body;
+      const updateData = req.body; 
       const booking = await Booking.findByIdAndUpdate(req.params.id, updateData, {
         new: true,
       });

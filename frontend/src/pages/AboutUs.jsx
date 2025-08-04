@@ -13,7 +13,7 @@ const AboutUs = () => (
       }}
     ></div>
     <div className="w-full max-w-4xl mx-auto px-2 sm:px-4 py-8 sm:py-12 relative z-10">
-      <h1 className="text-3xl sm:text-5xl font-extrabold text-secondary mb-4 sm:mb-6 font-serif drop-shadow-sm">About Us</h1>
+      <h1 className="text-3xl sm:text-5xl font-extrabold text-secondary mb-4 sm:mb-6 font-heading">About Us</h1>
 
       <p className="text-base sm:text-xl font-content mb-3 sm:mb-5 leading-relaxed">
         <span className="font-bold text-lg sm:text-2xl text-[#895143]"> Enliven Properties</span> welcomes you to the very best of Bhubaneswar hospitality. With two premier locations—Enliven Patia and Enliven Niladri Vihar—we blend modern comforts, elegant interiors, and personalized service in the city’s most accessible areas. Whether you're traveling for business, leisure, or celebration, our team is dedicated to making your stay effortless and memorable in every detail.

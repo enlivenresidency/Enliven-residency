@@ -4,7 +4,6 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-
 const RoomCarousel = ({ images }) => {
   const sliderRef = useRef();
 
@@ -35,7 +34,7 @@ const RoomCarousel = ({ images }) => {
               <img
                 src={img}
                 alt={`Room Slide ${i + 1}`}
-                className="w-full h-[38vw] max-h-[520px] min-h-[240px] object-cover"
+                className="w-full h-[48vw] max-h-[400px] min-h-[180px] sm:h-[30vw] sm:max-h-[520px] sm:min-h-[280px] object-cover"
                 style={{ margin: 0, padding: 0, display: "block" }}
               />
             </div>
@@ -44,15 +43,15 @@ const RoomCarousel = ({ images }) => {
         {/* Side navigation arrows */}
         <button
           onClick={prevSlide}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-primary hover:bg-secondary text-white p-2 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
+          className="absolute left-2 xs:left-4 top-1/2 -translate-y-1/2 z-20 bg-primary hover:bg-secondary text-white p-2 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
         >
-          <FaChevronLeft className="w-5 h-5" />
+          <FaChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
         <button
           onClick={nextSlide}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-primary hover:bg-secondary text-white p-2 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
+          className="absolute right-2 xs:right-4 top-1/2 -translate-y-1/2 z-20 bg-primary hover:bg-secondary text-white p-2 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
         >
-          <FaChevronRight className="w-5 h-5" />
+          <FaChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
       </div>
       <style jsx>{`

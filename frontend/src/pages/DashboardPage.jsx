@@ -71,9 +71,10 @@ const DashboardPage = ({ user, setUser }) => {
   const openEditModal = (booking) => {
     setCurrentBooking({
       ...booking,
-      checkin: booking.checkin ? new Date(booking.checkin).toISOString().substr(0,10) : '',
-      checkout: booking.checkout ? new Date(booking.checkout).toISOString().substr(0,10) : '',
+      checkin: booking.checkin ? new Date(booking.checkin).toISOString().substr(0, 10) : '',
+      checkout: booking.checkout ? new Date(booking.checkout).toISOString().substr(0, 10) : '',
       totalAmount: booking.totalAmount.toString(),
+      remark: booking.remark || "",
     });
     setEditError(null);
     setIsEditing(true);
@@ -92,7 +93,7 @@ const DashboardPage = ({ user, setUser }) => {
     setCurrentBooking(prev => ({ ...prev, [name]: value }));
   };
 
-  // Submit edited booking to backend
+  // Submit edited booking to backend, including remark
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     setEditError(null);
@@ -119,6 +120,7 @@ const DashboardPage = ({ user, setUser }) => {
         rooms: Number(currentBooking.rooms),
         location: currentBooking.location,
         totalAmount: parseFloat(currentBooking.totalAmount),
+        ...(isAdmin && { remark: currentBooking.remark || "" }),
       };
 
       const res = await fetch(`http://localhost:5000/api/bookings/${currentBooking._id}`, {
@@ -148,7 +150,7 @@ const DashboardPage = ({ user, setUser }) => {
   return (
     <div className="p-2 sm:p-6 max-w-7xl mx-auto">
       <div className="flex flex-col sm:flex-row sm:justify-between mb-8 items-center">
-        <h1 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-0">Dashboard</h1>
+        <h1 className="text-2xl text-primary font-heading text-heading sm:text-3xl font-bold mb-3 sm:mb-0">Dashboard</h1>
         <button
           onClick={handleLogout}
           className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 w-full sm:w-auto"
@@ -163,7 +165,7 @@ const DashboardPage = ({ user, setUser }) => {
 
       {!loading && bookings.length > 0 && (
         <div className="overflow-x-auto">
-          <table className="min-w-[680px] sm:min-w-full border border-gray-300 text-xs sm:text-sm">
+          <table className="min-w-[800px] sm:min-w-full border border-gray-300 text-xs sm:text-sm">
             <thead className="bg-gray-100">
               <tr>
                 <th className="border px-2 sm:px-3 py-2">Name</th>
@@ -175,6 +177,7 @@ const DashboardPage = ({ user, setUser }) => {
                 <th className="border px-2 sm:px-3 py-2">Rooms</th>
                 <th className="border px-2 sm:px-3 py-2">Location</th>
                 <th className="border px-2 sm:px-3 py-2">Amount (₹)</th>
+                <th className="border px-2 sm:px-3 py-2">Remark</th>
                 {isAdmin && <th className="border px-2 sm:px-3 py-2">Actions</th>}
               </tr>
             </thead>
@@ -190,24 +193,26 @@ const DashboardPage = ({ user, setUser }) => {
                   <td className="border px-2 sm:px-3 py-1">{booking.rooms}</td>
                   <td className="border px-2 sm:px-3 py-1">{booking.location}</td>
                   <td className="border px-2 sm:px-3 py-1">{parseFloat(booking.totalAmount).toFixed(2)}</td>
+                  <td className="border px-2 sm:px-3 py-1 max-w-[180px] truncate" title={booking.remark || ""}>
+                    {booking.remark || ""}
+                  </td>
                   {isAdmin && (
                     <td className="border px-2 sm:px-3 py-1">
-  <div className="flex flex-row flex-wrap gap-2">
-    <button
-      onClick={() => openEditModal(booking)}
-      className="px-2 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
-    >
-      Edit
-    </button>
-    <button
-      onClick={() => handleDelete(booking._id)}
-      className="px-2 py-1 bg-red-600 text-white rounded hover:bg-red-700"
-    >
-      Delete
-    </button>
-  </div>
-</td>
-
+                      <div className="flex flex-row flex-wrap gap-2">
+                        <button
+                          onClick={() => openEditModal(booking)}
+                          className="px-2 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleDelete(booking._id)}
+                          className="px-2 py-1 bg-red-600 text-white rounded hover:bg-red-700"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </td>
                   )}
                 </tr>
               ))}
@@ -217,7 +222,7 @@ const DashboardPage = ({ user, setUser }) => {
       )}
 
       {/* Edit Modal */}
-      {isEditing && (
+      {isEditing && isAdmin && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 px-2 overflow-y-auto">
           <div className="bg-white rounded p-4 sm:p-6 max-w-lg w-full overflow-y-auto">
             <h2 className="text-2xl font-bold mb-4">Edit Booking</h2>
@@ -331,6 +336,18 @@ const DashboardPage = ({ user, setUser }) => {
                   step="0.01"
                   required
                   className="w-full border p-2 rounded"
+                />
+              </div>
+              {/* REMARK FIELD (editable for admin only) */}
+              <div>
+                <label className="block font-semibold mb-1">Remark</label>
+                <textarea
+                  name="remark"
+                  value={currentBooking.remark || ""}
+                  onChange={handleEditChange}
+                  rows={2}
+                  className="w-full border p-2 rounded resize-vertical"
+                  placeholder="Add remark here"
                 />
               </div>
               <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 mt-2">

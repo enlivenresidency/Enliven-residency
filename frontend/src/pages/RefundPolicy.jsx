@@ -12,7 +12,7 @@ const RefundPolicy = () => (
       }}
     />
     <div className="w-full max-w-2xl mx-auto px-2 sm:px-4 py-8 sm:py-12 relative z-10">
-      <h1 className="text-2xl sm:text-4xl font-extrabold text-secondary mb-4 sm:mb-6 font-serif drop-shadow-sm">
+      <h1 className="text-2xl sm:text-4xl font-extrabold text-secondary mb-4 sm:mb-6 font-heading">
         Refund & Cancellation Policy
       </h1>
       <p className="mb-4 sm:mb-6 text-base sm:text-lg text-gray-800 leading-relaxed font-content">
