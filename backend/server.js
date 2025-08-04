@@ -32,7 +32,15 @@ mongoose
   });
 
 // Middleware
-app.use(cors()); // Enable all CORS, optionally configure origins for production
+const allowedOrigins = [
+  process.env.FRONTEND_URL
+];
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true,
+}));
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
