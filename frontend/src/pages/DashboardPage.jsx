@@ -12,6 +12,8 @@ const DashboardPage = ({ user, setUser }) => {
   const navigate = useNavigate();
   const isAdmin = user?.role === 'admin';
   const token = localStorage.getItem('token');
+  const API_BASE_URL = process.env.REACT_APP_BACKEND_URL;
+
 
   useEffect(() => {
     if (!token || !user) {
@@ -19,9 +21,10 @@ const DashboardPage = ({ user, setUser }) => {
       return;
     }
 
-    fetch('http://localhost:5000/api/bookings', {
-      headers: { Authorization: `Bearer ${token}` },
-    })
+    fetch(`${API_BASE_URL}/api/bookings`, {
+  headers: { Authorization: `Bearer ${token}` },
+})
+
       .then(res => {
         if (!res.ok) {
           throw new Error('Failed to load bookings');
@@ -50,7 +53,8 @@ const DashboardPage = ({ user, setUser }) => {
 
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/api/bookings/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/bookings/${id}`, {
+
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -123,7 +127,8 @@ const DashboardPage = ({ user, setUser }) => {
         ...(isAdmin && { remark: currentBooking.remark || "" }),
       };
 
-      const res = await fetch(`http://localhost:5000/api/bookings/${currentBooking._id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/bookings/${currentBooking._id}`, {
+
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${token}`,
