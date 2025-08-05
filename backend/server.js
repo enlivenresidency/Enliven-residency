@@ -14,6 +14,33 @@ const app = express();
 const JWT_SECRET = process.env.JWT_SECRET || 'your_secret_key';
 const nodemailer = require('nodemailer');
 
+
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  'https://enlivenresidency.com',
+  'https://www.enlivenresidency.com',
+  'http://localhost:5173',
+  'https://hoppscotch.io'
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error('Not allowed by CORS: ' + origin));
+  },
+  credentials: true,
+}));
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error('Not allowed by CORS: ' + origin));
+  },
+  credentials: true,
+}));
+
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -48,22 +75,10 @@ mongoose
 
 
 // Middleware
-const allowedOrigins = [
-  process.env.FRONTEND_URL,
-  'https://enlivenresidency.com',
-  'https://www.enlivenresidency.com',
-  'http://localhost:5173',
-];
 
 
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) return callback(null, true);
-    return callback(new Error('Not allowed by CORS: ' + origin));
-  },
-  credentials: true,
-}));
+
+
 
 
 
