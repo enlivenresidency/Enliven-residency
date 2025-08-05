@@ -12,7 +12,7 @@ const DashboardPage = ({ user, setUser }) => {
   const navigate = useNavigate();
   const isAdmin = user?.role === "admin";
   const token = localStorage.getItem("token");
-  const VITE_BACKEND_URL = process.env.VITE_BACKEND_URL;
+  const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     if (!token || !user) {
