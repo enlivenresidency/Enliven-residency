@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { FaFacebookF, FaInstagram, FaWhatsapp, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
 import logo from '../assets/logo/enliven.png';
 
@@ -73,12 +74,24 @@ const Footer = () => {
               <ul className="space-y-2">
                 {quickLinks.map((link, index) => (
                   <li key={index}>
-                    <a
-                      href={link.href}
-                      className="text-primary hover:text-secondary transition-colors duration-300 font-content text-sm inline-block py-1"
-                    >
-                      {link.name}
-                    </a>
+                    {
+                      link.href.startsWith('#') ? (
+                        // For hash links/external links
+                        <a
+                          href={link.href}
+                          className="text-primary hover:text-secondary transition-colors duration-300 font-content text-sm inline-block py-1"
+                        >
+                          {link.name}
+                        </a>
+                      ) : (
+                        <Link
+                          to={link.href}
+                          className="text-primary hover:text-secondary transition-colors duration-300 font-content text-sm inline-block py-1"
+                        >
+                          {link.name}
+                        </Link>
+                      )
+                    }
                   </li>
                 ))}
               </ul>
@@ -92,12 +105,12 @@ const Footer = () => {
               <ul className="space-y-2">
                 {ourProperties.map((property, index) => (
                   <li key={index}>
-                    <a
-                      href={property.href}
+                    <Link
+                      to={property.href}
                       className="text-primary hover:text-secondary transition-colors duration-300 font-content text-sm inline-block py-1"
                     >
                       {property.name}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -174,26 +187,26 @@ const Footer = () => {
                   Swagat
                 </span>
               </p>
-
               <div className="flex flex-wrap justify-center md:justify-end space-x-4 text-center md:text-right">
-                <a
-                  href="#"
+                {/* All below are internal routes */}
+                <Link
+                  to="/privacy-policy"
                   className="text-primary hover:text-secondary transition-colors duration-300 font-content text-sm"
                 >
                   Privacy Policy
-                </a>
-                <a
-                  href="/refund-policy"
+                </Link>
+                <Link
+                  to="/refund-policy"
                   className="text-primary hover:text-secondary transition-colors duration-300 font-content text-sm"
                 >
                   Refund Policy
-                </a>
-                <a
-                  href="/login"
+                </Link>
+                <Link
+                  to="/login"
                   className="text-primary hover:text-secondary transition-colors duration-300 font-content text-sm"
                 >
                   Admin Login
-                </a>
+                </Link>
               </div>
             </div>
           </div>

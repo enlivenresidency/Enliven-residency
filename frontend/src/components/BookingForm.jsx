@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
 const PROPERTY_PRICES = {
@@ -6,11 +6,31 @@ const PROPERTY_PRICES = {
   'niladri-vihar': 1500,
 };
 
+const getToday = () => new Date().toISOString().slice(0, 10);
+const getTomorrow = () => {
+  const d = new Date();
+  d.setDate(d.getDate() + 1);
+  return d.toISOString().slice(0, 10);
+};
+
+function minRoomsForGuests(adults, children) {
+  adults = parseInt(adults, 10) || 1;
+  children = parseInt(children, 10) || 0;
+  // Each room: max 2 adults + 1 child
+  const roomForAdults = Math.ceil(adults / 2);
+  const roomForChildren = Math.ceil(children / 1);
+  return Math.max(roomForAdults, roomForChildren, 1);
+}
+
+const MAX_ADULTS = 10;
+const MAX_CHILDREN = 5;
+const MAX_ROOMS = 5;
+
 const BookingForm = ({ onClose }) => {
   const [formData, setFormData] = useState({
     location: '',
-    checkin: '',
-    checkout: '',
+    checkin: getToday(),
+    checkout: getTomorrow(),
     name: '',
     phone: '',
     adults: '1',
@@ -21,33 +41,39 @@ const BookingForm = ({ onClose }) => {
   const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
 
-  const rooms = parseInt(formData.rooms, 10) || 1;
-  const adultsMax = rooms * 2;
-  const childrenMax = rooms * 1;
+  const minRooms = minRoomsForGuests(formData.adults, formData.children);
 
-  React.useEffect(() => {
-    if (parseInt(formData.adults, 10) > adultsMax) {
-      setFormData(f => ({ ...f, adults: String(adultsMax) }));
+  // Always clamp values to not allow rooms, adults, children out of bounds
+  useEffect(() => {
+    // Clamp adults/children if above max
+    if (parseInt(formData.adults) > MAX_ADULTS) {
+      setFormData(f => ({ ...f, adults: String(MAX_ADULTS) }));
     }
-    if (parseInt(formData.children, 10) > childrenMax) {
-      setFormData(f => ({ ...f, children: String(childrenMax) }));
+    if (parseInt(formData.children) > MAX_CHILDREN) {
+      setFormData(f => ({ ...f, children: String(MAX_CHILDREN) }));
+    }
+    // Clamp to minimum rooms
+    if (parseInt(formData.rooms) < minRooms) {
+      setFormData(f => ({ ...f, rooms: String(minRooms) }));
+    }
+    // Clamp to max rooms
+    if (parseInt(formData.rooms) > MAX_ROOMS) {
+      setFormData(f => ({ ...f, rooms: String(MAX_ROOMS) }));
     }
     // eslint-disable-next-line
-  }, [rooms]);
+  }, [formData.adults, formData.children, minRooms]);
 
-  React.useEffect(() => {
+  useEffect(() => {
+    // Ensure check-out is always after check-in
     if (formData.checkin) {
       const checkinDate = new Date(formData.checkin);
       let nextDate = new Date(checkinDate);
       nextDate.setDate(nextDate.getDate() + 1);
       const nextDateISO = nextDate.toISOString().slice(0, 10);
-      if (
-        !formData.checkout ||
-        formData.checkout <= formData.checkin
-      ) {
+      if (!formData.checkout || formData.checkout <= formData.checkin) {
         setFormData((f) => ({
           ...f,
-          checkout: nextDateISO
+          checkout: nextDateISO,
         }));
       }
     }
@@ -61,7 +87,11 @@ const BookingForm = ({ onClose }) => {
   };
 
   const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = (e) => {
@@ -72,44 +102,43 @@ const BookingForm = ({ onClose }) => {
       setErrorMessage('Please select a valid location.');
       return;
     }
-
     const nights = calculateNights(formData.checkin, formData.checkout);
-
     if (nights <= 0 || isNaN(nights)) {
       setErrorMessage('Please select valid check-in and check-out dates.');
       return;
     }
-
-    if (parseInt(formData.adults, 10) > adultsMax || parseInt(formData.adults, 10) < 1) {
-      setErrorMessage(`Maximum ${adultsMax} adult(s) allowed for ${rooms} room(s).`);
+    if (parseInt(formData.adults, 10) < 1) {
+      setErrorMessage('At least 1 adult required.');
       return;
     }
-    if (parseInt(formData.children, 10) > childrenMax) {
-      setErrorMessage(`Maximum ${childrenMax} child(ren) (below 6 years) allowed for ${rooms} room(s).`);
+    if (parseInt(formData.adults, 10) > MAX_ADULTS) {
+      setErrorMessage(`Maximum ${MAX_ADULTS} adults allowed.`);
       return;
     }
-
+    if (parseInt(formData.children, 10) > MAX_CHILDREN) {
+      setErrorMessage(`Maximum ${MAX_CHILDREN} children allowed.`);
+      return;
+    }
+    if (parseInt(formData.rooms) < minRooms) {
+      setErrorMessage(`Minimum rooms required for ${formData.adults} adults and ${formData.children} children is ${minRooms}.`);
+      return;
+    }
     const paymentInfo = {
       ...formData,
       nights,
       baseAmount: PROPERTY_PRICES[formData.location] || 1200,
       qrImageUrl: '/static/payment-qr.png',
     };
-
     if (formData.location === 'patia') {
       navigate('/enliven-patia/payment', { state: paymentInfo });
     } else if (formData.location === 'niladri-vihar') {
       navigate('/enliven-niladri/payment', { state: paymentInfo });
     }
-
-    if (onClose) {
-      onClose();
-    }
+    if (onClose) onClose();
   };
 
   return (
     <div className="p-4 xs:p-6 sm:p-8">
-      {/* Header */}
       <div className="text-center mb-6">
         <h2 className="text-2xl xs:text-3xl font-bold font-heading text-primary mb-2">
           Book Your Stay
@@ -117,11 +146,9 @@ const BookingForm = ({ onClose }) => {
         <p className="text-gray-600 font-content">Experience luxury at Hotel Enliven</p>
         <div className="w-24 h-1 bg-secondary mx-auto mt-3 rounded-full"></div>
       </div>
-
       {errorMessage && (
         <div className="text-red-600 font-semibold mb-4 text-center">{errorMessage}</div>
       )}
-
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Location */}
         <div>
@@ -138,32 +165,38 @@ const BookingForm = ({ onClose }) => {
           </select>
         </div>
 
-        {/* Date Selection */}
+        {/* Date Selection with Labels */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <input
-            type="date"
-            name="checkin"
-            value={formData.checkin}
-            onChange={handleInputChange}
-            className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none transition-colors duration-300"
-            required
-            min={new Date().toISOString().slice(0, 10)}
-          />
-          <input
-            type="date"
-            name="checkout"
-            value={formData.checkout}
-            onChange={handleInputChange}
-            className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none transition-colors duration-300"
-            required
-            min={
-              formData.checkin
-                ? new Date(new Date(formData.checkin).setDate(new Date(formData.checkin).getDate() + 1))
-                    .toISOString()
-                    .slice(0, 10)
-                : new Date().toISOString().slice(0, 10)
-            }
-          />
+          <div>
+            <label htmlFor="checkin" className="block mb-1 font-semibold text-sm text-gray-700">Check-in Date</label>
+            <input
+              type="date"
+              id="checkin"
+              name="checkin"
+              value={formData.checkin}
+              onChange={handleInputChange}
+              className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none transition-colors duration-300"
+              required
+              min={getToday()}
+            />
+          </div>
+          <div>
+            <label htmlFor="checkout" className="block mb-1 font-semibold text-sm text-gray-700">Check-out Date</label>
+            <input
+              type="date"
+              id="checkout"
+              name="checkout"
+              value={formData.checkout}
+              onChange={handleInputChange}
+              className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none transition-colors duration-300"
+              required
+              min={
+                formData.checkin
+                  ? new Date(new Date(formData.checkin).setDate(new Date(formData.checkin).getDate() + 1)).toISOString().slice(0, 10)
+                  : getTomorrow()
+              }
+            />
+          </div>
         </div>
 
         {/* Name and Phone */}
@@ -198,7 +231,7 @@ const BookingForm = ({ onClose }) => {
             onChange={handleInputChange}
             className="w-full text-sm sm:text-base px-2 py-2 sm:px-3 sm:py-3 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none transition-all duration-300 leading-tight"
           >
-            {Array.from({ length: adultsMax }, (_, i) => i + 1).map((num) => (
+            {Array.from({ length: MAX_ADULTS }, (_, i) => i + 1).map((num) => (
               <option key={num} value={num}>
                 {num} Adult{num > 1 ? 's' : ''}
               </option>
@@ -210,7 +243,7 @@ const BookingForm = ({ onClose }) => {
             onChange={handleInputChange}
             className="w-full text-sm sm:text-base px-2 py-2 sm:px-3 sm:py-3 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none transition-all duration-300 leading-tight"
           >
-            {Array.from({ length: childrenMax + 1 }, (_, i) => i).map((num) => (
+            {Array.from({ length: MAX_CHILDREN + 1 }, (_, i) => i).map((num) => (
               <option key={num} value={num}>
                 {num} Child{num !== 1 ? 'ren' : ''}
               </option>
@@ -222,7 +255,7 @@ const BookingForm = ({ onClose }) => {
             onChange={handleInputChange}
             className="w-full text-sm sm:text-base px-2 py-2 sm:px-3 sm:py-3 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none transition-all duration-300 leading-tight"
           >
-            {[1, 2, 3, 4, 5].map((val) => (
+            {Array.from({ length: MAX_ROOMS - minRooms + 1 }, (_, i) => i + minRooms).map((val) => (
               <option key={val} value={val}>{val} Room{val > 1 ? 's' : ''}</option>
             ))}
           </select>

@@ -33,12 +33,20 @@ mongoose
 
 // Middleware
 const allowedOrigins = [
-  process.env.FRONTEND_URL
+  process.env.FRONTEND_URL, 
+  'http://localhost:5173',      
+  
 ];
+
 app.use(cors({
-  origin: allowedOrigins,
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true); 
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error('Not allowed by CORS: ' + origin));
+  },
   credentials: true,
 }));
+
 
 
 app.use(express.json());
@@ -48,7 +56,7 @@ app.use(express.urlencoded({ extended: true }));
 const PROPERTY_PRICES = {
   Patia: 1200,
   Niladri: 1500,
-  // Add other locations as needed
+ 
 };
 
 // Health check endpoint

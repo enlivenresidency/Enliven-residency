@@ -143,7 +143,7 @@ const EnlivenNiladri = () => {
                     832881887
                   </span>
                   <a
-                    href="https://wa.me/9183288187"
+                    href="https://wa.me/918328818871"
                     target="_blank"
                     rel="noopener noreferrer"
                     title="WhatsApp"
@@ -152,7 +152,7 @@ const EnlivenNiladri = () => {
                     <FaWhatsapp className="w-6 h-6" />
                   </a>
                   <a
-                    href="tel:+9183288187"
+                    href="tel:+918328818871"
                     className="text-primary hover:text-secondary"
                     title="Call"
                   >
@@ -164,7 +164,7 @@ const EnlivenNiladri = () => {
                     9777959859
                   </span>
                   <a
-                    href="https://wa.me/9197779598"
+                    href="https://wa.me/919777959859"
                     target="_blank"
                     rel="noopener noreferrer"
                     title="WhatsApp"
@@ -173,7 +173,7 @@ const EnlivenNiladri = () => {
                     <FaWhatsapp className="w-6 h-6" />
                   </a>
                   <a
-                    href="tel:+9197779598"
+                    href="tel:+919777959859"
                     className="text-primary hover:text-secondary"
                     title="Call"
                   >

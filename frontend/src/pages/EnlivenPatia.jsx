@@ -15,7 +15,7 @@ const images = [
 
 const PROPERTY_PRICES = {
   Patia: 1200,
-  Nilri: 1500,
+  Niladri: 1500,
 };
 
 
@@ -143,7 +143,7 @@ const EnlivenPatia = () => {
                     832881887
                   </span>
                   <a
-                    href="https://wa.me/9183288187"
+                    href="https://wa.me/918328818871"
                     target="_blank"
                     rel="noopener noreferrer"
                     title="WhatsApp"
@@ -152,7 +152,7 @@ const EnlivenPatia = () => {
                     <FaWhatsapp className="w-6 h-6" />
                   </a>
                   <a
-                    href="tel:+9183288187"
+                    href="tel:+918328818871"
                     className="text-primary hover:text-secondary"
                     title="Call"
                   >
@@ -165,7 +165,7 @@ const EnlivenPatia = () => {
                     9777959859
                   </span>
                   <a
-                    href="https://wa.me/9197779598"
+                    href="https://wa.me/919777959859"
                     target="_blank"
                     rel="noopener noreferrer"
                     title="WhatsApp"
@@ -174,7 +174,7 @@ const EnlivenPatia = () => {
                     <FaWhatsapp className="w-6 h-6" />
                   </a>
                   <a
-                    href="tel:+9197779598"
+                    href="tel:+919777959859"
                     className="text-primary hover:text-secondary"
                     title="Call"
                   >
