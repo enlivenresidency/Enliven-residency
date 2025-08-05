@@ -1,31 +1,38 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { FaFacebookF, FaInstagram, FaWhatsapp, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
-import logo from '../assets/logo/enliven.png';
+import React from "react";
+import { Link } from "react-router-dom";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaWhatsapp,
+  FaEnvelope,
+  FaPhone,
+  FaMapMarkerAlt,
+} from "react-icons/fa";
+import logo from "../assets/logo/enliven.png";
 
 const quickLinks = [
   { name: "About Us", href: "/about" },
   { name: "FAQs", href: "#" },
-  { name: "Gallery", href: "#" }
+  { name: "Gallery", href: "#" },
 ];
 
 const ourProperties = [
   { name: "Enliven Residency, Patia", href: "/enliven-patia" },
   { name: "Enliven Residency, Niladri Vihar", href: "/enliven-niladri" },
-  { name: "Aghran Restaurant", href: "/aghran-restaurant" }
+  { name: "Aghran Restaurant", href: "/aghran-restaurant" },
 ];
 
 const socialLinks = [
   {
     icon: <FaFacebookF />,
     href: "https://www.facebook.com/share/1AkbEd1RCC/",
-    color: "hover:text-blue-600"
+    color: "hover:text-blue-600",
   },
   {
     icon: <FaInstagram />,
     href: "https://www.instagram.com/enlivenresidencey/",
-    color: "hover:text-pink-500"
-  }
+    color: "hover:text-pink-500",
+  },
 ];
 
 const Footer = () => {
@@ -47,7 +54,9 @@ const Footer = () => {
                 </span>
               </div>
               <p className="text-gray-600 font-content text-sm leading-relaxed pr-4">
-                Experience royal comfort and luxury at Hotel Enliven. We provide exceptional accommodation and dining experiences across Bhubaneswar.
+                Experience royal comfort and luxury at Hotel Enliven. We provide
+                exceptional accommodation and dining experiences across
+                Bhubaneswar.
               </p>
 
               {/* Social Links */}
@@ -60,7 +69,9 @@ const Footer = () => {
                     rel="noopener noreferrer"
                     className={`bg-gray-100 p-2.5 rounded-full text-primary ${social.color} hover:bg-gray-200 transition-all duration-300 transform hover:scale-110`}
                   >
-                    <span className="w-4 h-4 flex items-center justify-center">{social.icon}</span>
+                    <span className="w-4 h-4 flex items-center justify-center">
+                      {social.icon}
+                    </span>
                   </a>
                 ))}
               </div>
@@ -74,24 +85,22 @@ const Footer = () => {
               <ul className="space-y-2">
                 {quickLinks.map((link, index) => (
                   <li key={index}>
-                    {
-                      link.href.startsWith('#') ? (
-                        // For hash links/external links
-                        <a
-                          href={link.href}
-                          className="text-primary hover:text-secondary transition-colors duration-300 font-content text-sm inline-block py-1"
-                        >
-                          {link.name}
-                        </a>
-                      ) : (
-                        <Link
-                          to={link.href}
-                          className="text-primary hover:text-secondary transition-colors duration-300 font-content text-sm inline-block py-1"
-                        >
-                          {link.name}
-                        </Link>
-                      )
-                    }
+                    {link.href.startsWith("#") ? (
+                      // For hash links/external links
+                      <a
+                        href={link.href}
+                        className="text-primary hover:text-secondary transition-colors duration-300 font-content text-sm inline-block py-1"
+                      >
+                        {link.name}
+                      </a>
+                    ) : (
+                      <Link
+                        to={link.href}
+                        className="text-primary hover:text-secondary transition-colors duration-300 font-content text-sm inline-block py-1"
+                      >
+                        {link.name}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -170,7 +179,9 @@ const Footer = () => {
                   </div>
                   <div className="text-primary font-content text-sm">
                     <p className="font-medium">Multiple Locations</p>
-                    <p className="text-gray-600 text-xs mt-1">Patia & Niladri Vihar</p>
+                    <p className="text-gray-600 text-xs mt-1">
+                      Patia & Niladri Vihar
+                    </p>
                     <p className="text-gray-600 text-xs">Bhubaneswar, Odisha</p>
                   </div>
                 </div>
@@ -182,11 +193,16 @@ const Footer = () => {
           <div className="border-t border-gray-200 mt-10 pt-6">
             <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
               <p className="text-gray-600 font-content text-sm text-center md:text-left">
-                Copyright © 2025 Hotel Enliven. All rights reserved. Developed by
-                <span className="text-primary hover:text-secondary transition-colors duration-300 ml-1 cursor-pointer">
+                Copyright © 2025 Hotel Enliven. All rights reserved. Developed
+                by
+                <a
+                  href="#"
+                  className="text-primary transition-colors duration-300 ml-1 cursor-pointer"
+                >
                   Swagat
-                </span>
+                </a>
               </p>
+
               <div className="flex flex-wrap justify-center md:justify-end space-x-4 text-center md:text-right">
                 {/* All below are internal routes */}
                 <Link
