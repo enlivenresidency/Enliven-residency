@@ -12,7 +12,7 @@ const VITE_BACKEND_URL = process.env.VITE_BACKEND_URL;
     e.preventDefault();
     setError(null);
     try {
-      const res = await fetch(`${VITE_BACKEND_URLL}/api/login`, {
+      const res = await fetch(`${VITE_BACKEND_URL}/api/login`, {
 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
