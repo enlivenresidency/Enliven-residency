@@ -38,9 +38,7 @@ mongoose
     app.listen(PORT, () => {
       console.log(`Backend server running on port ${PORT}`);
     });
-    setInterval(() => {
-  console.log("Ping to keep Railway container alive");
-}, 10000);
+   
 
   })
   .catch((err) => {
