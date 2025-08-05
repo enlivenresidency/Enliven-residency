@@ -164,10 +164,10 @@ const Footer = () => {
                     <FaEnvelope className="w-4 h-4 text-secondary" />
                   </div>
                   <a
-                    href="mailto:aghranbhubaneswar@gmail.com"
+                    href="mailto:proprietor@enlivenresidency.com"
                     className="text-primary hover:text-secondary transition-colors duration-300 font-content text-sm"
                   >
-                    aghranbhubaneswar@gmail.com
+                    proprietor@enlivenresidency.com
                   </a>
                 </div>
 

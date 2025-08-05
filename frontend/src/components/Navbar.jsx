@@ -172,12 +172,12 @@ const Navbar = () => {
               </a>
               {/* Email */}
               <a
-                href="mailto:aghranbhubaneswar@gmail.com"
+                href="mailto:proprietor@enlivenresidency.com"
                 className="flex items-center text-primary hover:text-secondary transition-colors duration-300"
               >
                 <FaEnvelope className="w-5 h-5 mr-1" />
                 <span className="text-sm font-medium font-content">
-                  aghranbhubaneswar@gmail.com
+                  proprietor@enlivenresidency.com
                 </span>
               </a>
             </div>
