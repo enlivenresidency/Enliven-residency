@@ -6,13 +6,13 @@ const LoginPage = ({ setUser }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-const API_BASE_URL = process.env.REACT_APP_BACKEND_URL;
+const VITE_BACKEND_URL = process.env.VITE_BACKEND_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
     try {
-      const res = await fetch(`${API_BASE_URL}/api/login`, {
+      const res = await fetch(`${VITE_BACKEND_URLL}/api/login`, {
 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

@@ -12,7 +12,7 @@ const DashboardPage = ({ user, setUser }) => {
   const navigate = useNavigate();
   const isAdmin = user?.role === "admin";
   const token = localStorage.getItem("token");
-  const API_BASE_URL = process.env.REACT_APP_BACKEND_URL;
+  const VITE_BACKEND_URL = process.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     if (!token || !user) {
@@ -20,7 +20,7 @@ const DashboardPage = ({ user, setUser }) => {
       return;
     }
 
-    fetch(`${API_BASE_URL}/api/bookings`, {
+    fetch(`${VITE_BACKEND_URL}/api/bookings`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
@@ -52,7 +52,7 @@ const DashboardPage = ({ user, setUser }) => {
 
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`${API_BASE_URL}/api/bookings/${id}`, {
+      const res = await fetch(`${VITE_BACKEND_URL}/api/bookings/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -129,7 +129,7 @@ const DashboardPage = ({ user, setUser }) => {
       };
 
       const res = await fetch(
-        `${API_BASE_URL}/api/bookings/${currentBooking._id}`,
+        `${VITE_BACKEND_URL}/api/bookings/${currentBooking._id}`,
         {
           method: "PUT",
           headers: {
