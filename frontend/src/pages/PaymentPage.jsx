@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
+
+
 const PaymentPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -43,7 +45,7 @@ const PaymentPage = () => {
     setConfirming(true);
     setError(null);
     try {
-      const response = await fetch(`${import.meta.env.REACT_APP_BACKEND_URL}/api/book`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/book`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
