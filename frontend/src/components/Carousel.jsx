@@ -1,7 +1,7 @@
-import React, { useState, useRef } from 'react';
-import Slider from 'react-slick';
-import { FaChevronLeft, FaChevronRight, FaTimes } from 'react-icons/fa';
-import BookingForm from './BookingForm';
+import React, { useState, useRef } from "react";
+import Slider from "react-slick";
+import { FaChevronLeft, FaChevronRight, FaTimes } from "react-icons/fa";
+import BookingForm from "./BookingForm";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -14,26 +14,26 @@ const Carousel = () => {
       id: 1,
       url: "/banq3.jpg",
       title: "Banquet",
-      subtitle: "Gather. Feast. Celebrate."
+      subtitle: "Gather. Feast. Celebrate.",
     },
     {
       id: 2,
       url: "/room1.jpg",
       title: "Stay in Comfort, Dine in Style",
-      subtitle: "Elegant rooms with modern amenities"
+      subtitle: "Elegant rooms with modern amenities",
     },
     {
       id: 3,
       url: "/rest2.jpg",
       title: "Dine the Difference",
-      subtitle: "Authentic taste. Elegant ambience."
+      subtitle: "Authentic taste. Elegant ambience.",
     },
     {
       id: 4,
       url: "/artf.jpg",
       title: "Designed to Impress",
-      subtitle: "Aesthetic charm in every detail."
-    }
+      subtitle: "Aesthetic charm in every detail.",
+    },
   ];
 
   const settings = {
@@ -61,11 +61,14 @@ const Carousel = () => {
       <div className="relative h-full">
         <Slider ref={sliderRef} {...settings} className="h-full">
           {carouselImages.map((image) => (
-            <div key={image.id} className="relative h-[60vw] max-h-[680px] min-h-[320px] sm:h-screen">
+            <div
+              key={image.id}
+              className="relative h-[60vw] max-h-[680px] min-h-[320px] sm:h-screen"
+            >
               <div
                 className="h-full w-full bg-cover bg-center bg-no-repeat relative"
                 style={{
-                  backgroundImage: `url(${image.url})`
+                  backgroundImage: `url(${image.url})`,
                 }}
               >
                 {/* Slide Content */}
@@ -84,7 +87,6 @@ const Carousel = () => {
           ))}
         </Slider>
 
-        {/* Navigation Arrows: always accessible and not oversized on phones */}
         <button
           onClick={prevSlide}
           className="absolute left-2 xs:left-4 top-1/2 transform -translate-y-1/2 z-20 bg-primary hover:bg-secondary text-white p-2 xs:p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
@@ -98,7 +100,6 @@ const Carousel = () => {
           <FaChevronRight className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
         </button>
 
-        {/* Book Now Button: moves up on small screens if needed */}
         <div className="absolute bottom-6 sm:bottom-20 left-1/2 transform -translate-x-1/2 z-20">
           <button
             onClick={openBooking}
@@ -128,7 +129,6 @@ const Carousel = () => {
         </div>
       )}
 
-      {/* Custom CSS Styles */}
       <style>{`
         @keyframes backdropFade {
           from { opacity: 0; }

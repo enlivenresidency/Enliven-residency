@@ -86,7 +86,6 @@ const Footer = () => {
                 {quickLinks.map((link, index) => (
                   <li key={index}>
                     {link.href.startsWith("#") ? (
-                      // For hash links/external links
                       <a
                         href={link.href}
                         className="text-primary hover:text-secondary transition-colors duration-300 font-content text-sm inline-block py-1"

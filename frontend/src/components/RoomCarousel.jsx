@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
-import Slider from 'react-slick';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import React, { useRef } from "react";
+import Slider from "react-slick";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -19,7 +19,7 @@ const RoomCarousel = ({ images }) => {
     cssEase: "cubic-bezier(0.7, 0, 0.3, 1)",
     pauseOnHover: true,
     arrows: false,
-    dotsClass: "slick-dots custom-dots"
+    dotsClass: "slick-dots custom-dots",
   };
 
   const nextSlide = () => sliderRef.current.slickNext();
@@ -59,12 +59,12 @@ const RoomCarousel = ({ images }) => {
           bottom: 12px !important;
         }
         .custom-dots li button:before {
-          color: #68001E !important;
+          color: #68001e !important;
           font-size: 12px !important;
           opacity: 0.7 !important;
         }
         .custom-dots li.slick-active button:before {
-          color: #68001A !important;
+          color: #68001a !important;
           opacity: 1 !important;
         }
       `}</style>

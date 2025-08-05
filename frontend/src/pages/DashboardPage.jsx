@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const DashboardPage = ({ user, setUser }) => {
   const [bookings, setBookings] = useState([]);
@@ -10,34 +10,32 @@ const DashboardPage = ({ user, setUser }) => {
   const [editError, setEditError] = useState(null);
 
   const navigate = useNavigate();
-  const isAdmin = user?.role === 'admin';
-  const token = localStorage.getItem('token');
+  const isAdmin = user?.role === "admin";
+  const token = localStorage.getItem("token");
   const API_BASE_URL = process.env.REACT_APP_BACKEND_URL;
-
 
   useEffect(() => {
     if (!token || !user) {
-      navigate('/login');
+      navigate("/login");
       return;
     }
 
     fetch(`${API_BASE_URL}/api/bookings`, {
-  headers: { Authorization: `Bearer ${token}` },
-})
-
-      .then(res => {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => {
         if (!res.ok) {
-          throw new Error('Failed to load bookings');
+          throw new Error("Failed to load bookings");
         }
         return res.json();
       })
-      .then(data => {
+      .then((data) => {
         setBookings(data);
         setLoading(false);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
-        setError(err.message || 'An error occurred while fetching bookings.');
+        setError(err.message || "An error occurred while fetching bookings.");
         setLoading(false);
       });
   }, [token, user, navigate]);
@@ -45,28 +43,28 @@ const DashboardPage = ({ user, setUser }) => {
   const handleLogout = () => {
     localStorage.clear();
     setUser(null);
-    navigate('/login');
+    navigate("/login");
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this booking?')) return;
+    if (!window.confirm("Are you sure you want to delete this booking?"))
+      return;
 
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       const res = await fetch(`${API_BASE_URL}/api/bookings/${id}`, {
-
-        method: 'DELETE',
+        method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
 
       if (!res.ok) {
-        alert('Failed to delete booking.');
+        alert("Failed to delete booking.");
         return;
       }
 
-      setBookings(prev => prev.filter(booking => booking._id !== id));
+      setBookings((prev) => prev.filter((booking) => booking._id !== id));
     } catch (err) {
-      alert('Failed to delete booking.');
+      alert("Failed to delete booking.");
       console.error(err);
     }
   };
@@ -75,8 +73,12 @@ const DashboardPage = ({ user, setUser }) => {
   const openEditModal = (booking) => {
     setCurrentBooking({
       ...booking,
-      checkin: booking.checkin ? new Date(booking.checkin).toISOString().substr(0, 10) : '',
-      checkout: booking.checkout ? new Date(booking.checkout).toISOString().substr(0, 10) : '',
+      checkin: booking.checkin
+        ? new Date(booking.checkin).toISOString().substr(0, 10)
+        : "",
+      checkout: booking.checkout
+        ? new Date(booking.checkout).toISOString().substr(0, 10)
+        : "",
       totalAmount: booking.totalAmount.toString(),
       remark: booking.remark || "",
     });
@@ -94,10 +96,9 @@ const DashboardPage = ({ user, setUser }) => {
   // Handle input change in edit form
   const handleEditChange = (e) => {
     const { name, value } = e.target;
-    setCurrentBooking(prev => ({ ...prev, [name]: value }));
+    setCurrentBooking((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Submit edited booking to backend, including remark
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     setEditError(null);
@@ -108,12 +109,12 @@ const DashboardPage = ({ user, setUser }) => {
       !currentBooking.checkin ||
       !currentBooking.checkout
     ) {
-      setEditError('Please fill in all required fields.');
+      setEditError("Please fill in all required fields.");
       return;
     }
 
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       const payload = {
         name: currentBooking.name,
         phone: currentBooking.phone,
@@ -127,27 +128,31 @@ const DashboardPage = ({ user, setUser }) => {
         ...(isAdmin && { remark: currentBooking.remark || "" }),
       };
 
-      const res = await fetch(`${API_BASE_URL}/api/bookings/${currentBooking._id}`, {
-
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
+      const res = await fetch(
+        `${API_BASE_URL}/api/bookings/${currentBooking._id}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
 
       if (!res.ok) {
         const data = await res.json();
-        setEditError(data.error || 'Failed to update booking.');
+        setEditError(data.error || "Failed to update booking.");
         return;
       }
 
       const updatedBooking = await res.json();
-      setBookings(prev => prev.map(b => (b._id === updatedBooking._id ? updatedBooking : b)));
+      setBookings((prev) =>
+        prev.map((b) => (b._id === updatedBooking._id ? updatedBooking : b))
+      );
       closeEditModal();
     } catch (err) {
-      setEditError('Failed to update booking.');
+      setEditError("Failed to update booking.");
       console.error(err);
     }
   };
@@ -155,7 +160,9 @@ const DashboardPage = ({ user, setUser }) => {
   return (
     <div className="p-2 sm:p-6 max-w-7xl mx-auto">
       <div className="flex flex-col sm:flex-row sm:justify-between mb-8 items-center">
-        <h1 className="text-2xl text-primary font-heading text-heading sm:text-3xl font-bold mb-3 sm:mb-0">Dashboard</h1>
+        <h1 className="text-2xl text-primary font-heading text-heading sm:text-3xl font-bold mb-3 sm:mb-0">
+          Dashboard
+        </h1>
         <button
           onClick={handleLogout}
           className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 w-full sm:w-auto"
@@ -183,22 +190,37 @@ const DashboardPage = ({ user, setUser }) => {
                 <th className="border px-2 sm:px-3 py-2">Location</th>
                 <th className="border px-2 sm:px-3 py-2">Amount (₹)</th>
                 <th className="border px-2 sm:px-3 py-2">Remark</th>
-                {isAdmin && <th className="border px-2 sm:px-3 py-2">Actions</th>}
+                {isAdmin && (
+                  <th className="border px-2 sm:px-3 py-2">Actions</th>
+                )}
               </tr>
             </thead>
             <tbody>
-              {bookings.map(booking => (
+              {bookings.map((booking) => (
                 <tr key={booking._id} className="even:bg-gray-50">
                   <td className="border px-2 sm:px-3 py-1">{booking.name}</td>
                   <td className="border px-2 sm:px-3 py-1">{booking.phone}</td>
-                  <td className="border px-2 sm:px-3 py-1">{new Date(booking.checkin).toLocaleDateString()}</td>
-                  <td className="border px-2 sm:px-3 py-1">{new Date(booking.checkout).toLocaleDateString()}</td>
+                  <td className="border px-2 sm:px-3 py-1">
+                    {new Date(booking.checkin).toLocaleDateString()}
+                  </td>
+                  <td className="border px-2 sm:px-3 py-1">
+                    {new Date(booking.checkout).toLocaleDateString()}
+                  </td>
                   <td className="border px-2 sm:px-3 py-1">{booking.adults}</td>
-                  <td className="border px-2 sm:px-3 py-1">{booking.children}</td>
+                  <td className="border px-2 sm:px-3 py-1">
+                    {booking.children}
+                  </td>
                   <td className="border px-2 sm:px-3 py-1">{booking.rooms}</td>
-                  <td className="border px-2 sm:px-3 py-1">{booking.location}</td>
-                  <td className="border px-2 sm:px-3 py-1">{parseFloat(booking.totalAmount).toFixed(2)}</td>
-                  <td className="border px-2 sm:px-3 py-1 max-w-[180px] truncate" title={booking.remark || ""}>
+                  <td className="border px-2 sm:px-3 py-1">
+                    {booking.location}
+                  </td>
+                  <td className="border px-2 sm:px-3 py-1">
+                    {parseFloat(booking.totalAmount).toFixed(2)}
+                  </td>
+                  <td
+                    className="border px-2 sm:px-3 py-1 max-w-[180px] truncate"
+                    title={booking.remark || ""}
+                  >
                     {booking.remark || ""}
                   </td>
                   {isAdmin && (
@@ -231,7 +253,9 @@ const DashboardPage = ({ user, setUser }) => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 px-2 overflow-y-auto">
           <div className="bg-white rounded p-4 sm:p-6 max-w-lg w-full overflow-y-auto">
             <h2 className="text-2xl font-bold mb-4">Edit Booking</h2>
-            {editError && <div className="mb-4 text-red-600 font-semibold">{editError}</div>}
+            {editError && (
+              <div className="mb-4 text-red-600 font-semibold">{editError}</div>
+            )}
 
             <form onSubmit={handleEditSubmit} className="space-y-4">
               <div>
@@ -328,11 +352,13 @@ const DashboardPage = ({ user, setUser }) => {
                   onChange={handleEditChange}
                   required
                   className="w-full border p-2 rounded"
-                  disabled // Location not editable
+                  disabled
                 />
               </div>
               <div>
-                <label className="block font-semibold mb-1">Total Amount (₹)</label>
+                <label className="block font-semibold mb-1">
+                  Total Amount (₹)
+                </label>
                 <input
                   type="number"
                   name="totalAmount"

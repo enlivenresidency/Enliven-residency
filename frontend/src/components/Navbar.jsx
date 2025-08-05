@@ -1,7 +1,7 @@
-import React, { useState, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { FaWhatsapp, FaEnvelope, FaBars, FaTimes } from 'react-icons/fa';
-import logo from '../assets/logo/enliven.png';
+import React, { useState, useRef } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { FaWhatsapp, FaEnvelope, FaBars, FaTimes } from "react-icons/fa";
+import logo from "../assets/logo/enliven.png";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -23,7 +23,7 @@ const Navbar = () => {
   // Desktop dropdown close when clicking outside
   React.useEffect(() => {
     if (!isRoomsOpen) return;
-    const handle = e => {
+    const handle = (e) => {
       if (
         roomsDropdownRef.current &&
         !roomsDropdownRef.current.contains(e.target)
@@ -31,8 +31,8 @@ const Navbar = () => {
         setIsRoomsOpen(false);
       }
     };
-    document.addEventListener('mousedown', handle);
-    return () => document.removeEventListener('mousedown', handle);
+    document.addEventListener("mousedown", handle);
+    return () => document.removeEventListener("mousedown", handle);
   }, [isRoomsOpen]);
 
   // Close mobile menu if clicking outside
@@ -43,26 +43,29 @@ const Navbar = () => {
         menuRef.current &&
         !menuRef.current.contains(event.target) &&
         // ignore if click on menu button itself
-        !event.target.closest('.navbar-menu-btn')
+        !event.target.closest(".navbar-menu-btn")
       ) {
         setIsMenuOpen(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isMenuOpen]);
 
   return (
-    <nav className="bg-white sticky top-0 z-50" style={{ boxShadow: '0 4px 15px rgba(104, 0, 30, 0.2)' }}>
+    <nav
+      className="bg-white sticky top-0 z-50"
+      style={{ boxShadow: "0 4px 15px rgba(104, 0, 30, 0.2)" }}
+    >
       <div className="max-w-full mx-auto px-2 sm:px-4 lg:px-[25px]">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center group/logo focus:outline-none" tabIndex={0}>
-            <img
-              src={logo}
-              alt="Hotel Enliven"
-              className="h-16 w-auto "
-            />
+          <Link
+            to="/"
+            className="flex items-center group/logo focus:outline-none"
+            tabIndex={0}
+          >
+            <img src={logo} alt="Hotel Enliven" className="h-16 w-auto " />
             <img
               src="/LOGO.svg"
               alt=""
@@ -94,15 +97,27 @@ const Navbar = () => {
                   aria-expanded={isRoomsOpen}
                 >
                   ROOMS
-                  <svg className="ml-1 h-4 w-4 inline" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.587l3.71-3.356a.75.75 0 1 1 .98 1.137l-4.2 3.8a.75.75 0 0 1-1.06 0l-4.2-3.8a.75.75 0 0 1 .02-1.06z" clipRule="evenodd" />
+                  <svg
+                    className="ml-1 h-4 w-4 inline"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.587l3.71-3.356a.75.75 0 1 1 .98 1.137l-4.2 3.8a.75.75 0 0 1-1.06 0l-4.2-3.8a.75.75 0 0 1 .02-1.06z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                 </button>
-                {/* Desktop Dropdown with fade/scale transition */}
+                {/* Desktop Dropdown*/}
                 <div
                   className={`absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg z-50 pointer-events-auto transform transition-all duration-300 ease-in-out
-                    ${isRoomsOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}
-                  style={{ transitionProperty: 'opacity, transform' }}
+                    ${
+                      isRoomsOpen
+                        ? "opacity-100 scale-100"
+                        : "opacity-0 scale-95 pointer-events-none"
+                    }`}
+                  style={{ transitionProperty: "opacity, transform" }}
                 >
                   <Link
                     to="/enliven-patia"
@@ -139,7 +154,9 @@ const Navbar = () => {
                 className="flex items-center text-primary hover:text-secondary transition-colors duration-300"
               >
                 <FaWhatsapp className="w-5 h-5 mr-1" />
-                <span className="text-sm font-medium font-content">83288 18871</span>
+                <span className="text-sm font-medium font-content">
+                  83288 18871
+                </span>
               </a>
               {/* WhatsApp: 97779 59859 */}
               <a
@@ -149,7 +166,9 @@ const Navbar = () => {
                 className="flex items-center text-primary hover:text-secondary transition-colors duration-300"
               >
                 <FaWhatsapp className="w-5 h-5 mr-1" />
-                <span className="text-sm font-medium font-content">97779 59859</span>
+                <span className="text-sm font-medium font-content">
+                  97779 59859
+                </span>
               </a>
               {/* Email */}
               <a
@@ -157,7 +176,9 @@ const Navbar = () => {
                 className="flex items-center text-primary hover:text-secondary transition-colors duration-300"
               >
                 <FaEnvelope className="w-5 h-5 mr-1" />
-                <span className="text-sm font-medium font-content">aghranbhubaneswar@gmail.com</span>
+                <span className="text-sm font-medium font-content">
+                  aghranbhubaneswar@gmail.com
+                </span>
               </a>
             </div>
           </div>
@@ -178,10 +199,14 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu: slides from right, links right-aligned */}
+      {/* Mobile Menu*/}
       <div
         ref={menuRef}
-        className={`lg:hidden fixed top-0 right-0 h-full w-80 bg-white transition-transform duration-500 ease-in-out z-50 shadow-2xl ${isMenuOpen ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0 pointer-events-none'}`}
+        className={`lg:hidden fixed top-0 right-0 h-full w-80 bg-white transition-transform duration-500 ease-in-out z-50 shadow-2xl ${
+          isMenuOpen
+            ? "translate-x-0 opacity-100"
+            : "translate-x-full opacity-0 pointer-events-none"
+        }`}
       >
         <div className="px-8 py-8 flex flex-col items-end space-y-4 h-full">
           {/* Navigation Links, right-aligned */}
@@ -202,8 +227,16 @@ const Navbar = () => {
               aria-expanded={isMobileRoomsOpen}
             >
               ROOMS
-              <svg className="ml-2 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.587l3.71-3.356a.75.75 0 1 1 .98 1.137l-4.2 3.8a.75.75 0 0 1-1.06 0l-4.2-3.8a.75.75 0 0 1 .02-1.06z" clipRule="evenodd" />
+              <svg
+                className="ml-2 h-4 w-4"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.587l3.71-3.356a.75.75 0 1 1 .98 1.137l-4.2 3.8a.75.75 0 0 1-1.06 0l-4.2-3.8a.75.75 0 0 1 .02-1.06z"
+                  clipRule="evenodd"
+                />
               </svg>
             </button>
             {isMobileRoomsOpen && (
@@ -211,14 +244,20 @@ const Navbar = () => {
                 <Link
                   to="/enliven-patia"
                   className="text-primary hover:text-secondary font-content py-2 w-full pr-2 text-right"
-                  onClick={() => { setIsMobileRoomsOpen(false); toggleMenu(); }}
+                  onClick={() => {
+                    setIsMobileRoomsOpen(false);
+                    toggleMenu();
+                  }}
                 >
                   Enliven Patia
                 </Link>
                 <Link
                   to="/enliven-niladri"
                   className="text-primary hover:text-secondary font-content py-2 w-full pr-2 text-right"
-                  onClick={() => { setIsMobileRoomsOpen(false); toggleMenu(); }}
+                  onClick={() => {
+                    setIsMobileRoomsOpen(false);
+                    toggleMenu();
+                  }}
                 >
                   Enliven Niladri Vihar
                 </Link>
@@ -264,7 +303,9 @@ const Navbar = () => {
               onClick={toggleMenu}
             >
               <FaEnvelope className="w-5 h-5 mr-2" />
-              <span className="font-medium font-content">aghranbhubaneswar@gmail.com</span>
+              <span className="font-medium font-content">
+                aghranbhubaneswar@gmail.com
+              </span>
             </a>
           </div>
         </div>

@@ -110,7 +110,6 @@ const AghranRestaurant = () => {
         `}</style>
       </section>
 
-      {/* Subtle BG pattern */}
       <div
         className="absolute inset-0 opacity-10 pointer-events-none z-0"
         style={{
@@ -143,7 +142,9 @@ const AghranRestaurant = () => {
           </p>
           <ul className="list-disc pl-6 sm:pl-8 text-xs xs:text-sm sm:text-base text-gray-700 mb-4 font-content">
             {specials.map((dish, i) => (
-              <li key={i} className="py-1">{dish}</li>
+              <li key={i} className="py-1">
+                {dish}
+              </li>
             ))}
           </ul>
           <p className="text-sm xs:text-base sm:text-lg font-content text-gray-800">

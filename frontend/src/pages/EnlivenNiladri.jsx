@@ -1,11 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-
 import { FaWhatsapp, FaPhone } from "react-icons/fa";
 import Amenities from "../components/Amenities";
-
-
 import MiniBookingForm from "../components/MiniBookingForm";
 import RoomCarousel from "../components/RoomCarousel";
 
@@ -14,15 +10,12 @@ const images = [
   "/banq2.jpg",
   "/reception2.jpg",
   "/room2.jpg",
-
-  
 ];
+
 const PROPERTY_PRICES = {
   Patia: 1200,
   Niladri: 1500,
 };
-
-
 
 const sliderSettings = {
   dots: true,
@@ -63,7 +56,6 @@ const EnlivenNiladri = () => {
     return () => window.removeEventListener("resize", updateHeight);
   }, []);
 
-  // --- IMPORTANT: remove fetch call, just navigate on submit ---
   const handleBookingSubmit = (formData) => {
     setErrorMessage(null);
 
@@ -91,19 +83,19 @@ const EnlivenNiladri = () => {
       <h1 className="text-4xl md:text-5xl font-bold font-heading text-primary text-center mb-7 tracking-tight">
         Delux Room
       </h1>
-
       {/* Carousel */}
       <RoomCarousel images={images} />
 
-      {/* About & Contact */}
+      {/* About & Contact + Booking Form - responsive */}
       <div className="w-full flex flex-col lg:flex-row gap-10 items-start justify-center mt-6">
+        {/* About & Contact - mobile responsive */}
         <div
-          className="flex-1 bg-white rounded-xl shadow-lg px-10 py-8"
+          className="flex-1 bg-white rounded-xl shadow-lg px-4 sm:px-6 md:px-10 py-6 sm:py-8 mb-8 lg:mb-0"
           style={{ minHeight: aboutHeight }}
         >
           {/* Pricing */}
           <div>
-            <div className="flex items-baseline gap-2 mb-8">
+            <div className="flex flex-wrap items-baseline gap-2 mb-8">
               <span className="text-4xl font-extrabold text-primary font-content leading-none">
                 ₹1500
               </span>
@@ -126,8 +118,7 @@ const EnlivenNiladri = () => {
                   rel="noopener noreferrer"
                   className="text-secondary underline font-content text-base hover:text-primary"
                 >
-                   Niladri Vihar, Near Care Hospital (Backside of KV-4), Bhubaneswar - 751021
-
+                  Niladri Vihar, Near Care Hospital (Backside of KV-4), Bhubaneswar - 751021
                 </a>
               </div>
             </div>
@@ -183,7 +174,6 @@ const EnlivenNiladri = () => {
               </div>
             </div>
           </div>
-
           {/* About room */}
           <div>
             <h2 className="font-semibold text-primary font-heading text-2xl mb-3">
@@ -192,19 +182,19 @@ const EnlivenNiladri = () => {
             <p className="text-gray-700 font-content leading-relaxed text-lg">
               Nestled in one of Bhubaneswar's most serene and well-connected neighborhoods, Enliven Residency—Niladri Vihar is your gateway to a refined yet restful stay. Our hotel blends the warmth of traditional Odia hospitality with modern amenities, offering both business and leisure travellers a tranquil escape without compromising on convenience.
 
-Whether you're visiting Bhubaneswar for work, family events, or simply to explore the heritage-rich capital of Odisha, Enliven Niladri Vihar welcomes you with genuine care, a quiet atmosphere, and the assurance of a truly restful experience.
+              Whether you're visiting Bhubaneswar for work, family events, or simply to explore the heritage-rich capital of Odisha, Enliven Niladri Vihar welcomes you with genuine care, a quiet atmosphere, and the assurance of a truly restful experience.
             </p>
           </div>
         </div>
 
-        {/* Booking form */}
-        <div className="w-full max-w-sm" ref={formRef}>
+        {/* Booking form - always below OR beside on desktop */}
+        <div className="w-full max-w-sm mx-auto lg:mx-0" ref={formRef}>
           {errorMessage && (
             <div className="text-red-600 font-semibold mb-4 text-center">
               {errorMessage}
             </div>
           )}
-          <MiniBookingForm onSubmit={handleBookingSubmit}/>
+          <MiniBookingForm onSubmit={handleBookingSubmit} />
         </div>
       </div>
 

@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 
 const PROPERTY_PRICES = {
   patia: 1200,
-  'niladri-vihar': 1500,
+  "niladri-vihar": 1500,
 };
 
 const getToday = () => new Date().toISOString().slice(0, 10);
@@ -16,7 +16,6 @@ const getTomorrow = () => {
 function minRoomsForGuests(adults, children) {
   adults = parseInt(adults, 10) || 1;
   children = parseInt(children, 10) || 0;
-  // Each room: max 2 adults + 1 child
   const roomForAdults = Math.ceil(adults / 2);
   const roomForChildren = Math.ceil(children / 1);
   return Math.max(roomForAdults, roomForChildren, 1);
@@ -28,14 +27,14 @@ const MAX_ROOMS = 5;
 
 const BookingForm = ({ onClose }) => {
   const [formData, setFormData] = useState({
-    location: '',
+    location: "",
     checkin: getToday(),
     checkout: getTomorrow(),
-    name: '',
-    phone: '',
-    adults: '1',
-    children: '0',
-    rooms: '1',
+    name: "",
+    phone: "",
+    adults: "1",
+    children: "0",
+    rooms: "1",
   });
 
   const [errorMessage, setErrorMessage] = useState(null);
@@ -45,22 +44,20 @@ const BookingForm = ({ onClose }) => {
 
   // Always clamp values to not allow rooms, adults, children out of bounds
   useEffect(() => {
-    // Clamp adults/children if above max
     if (parseInt(formData.adults) > MAX_ADULTS) {
-      setFormData(f => ({ ...f, adults: String(MAX_ADULTS) }));
+      setFormData((f) => ({ ...f, adults: String(MAX_ADULTS) }));
     }
     if (parseInt(formData.children) > MAX_CHILDREN) {
-      setFormData(f => ({ ...f, children: String(MAX_CHILDREN) }));
+      setFormData((f) => ({ ...f, children: String(MAX_CHILDREN) }));
     }
-    // Clamp to minimum rooms
+
     if (parseInt(formData.rooms) < minRooms) {
-      setFormData(f => ({ ...f, rooms: String(minRooms) }));
+      setFormData((f) => ({ ...f, rooms: String(minRooms) }));
     }
-    // Clamp to max rooms
+
     if (parseInt(formData.rooms) > MAX_ROOMS) {
-      setFormData(f => ({ ...f, rooms: String(MAX_ROOMS) }));
+      setFormData((f) => ({ ...f, rooms: String(MAX_ROOMS) }));
     }
-    // eslint-disable-next-line
   }, [formData.adults, formData.children, minRooms]);
 
   useEffect(() => {
@@ -77,7 +74,6 @@ const BookingForm = ({ onClose }) => {
         }));
       }
     }
-    // eslint-disable-next-line
   }, [formData.checkin]);
 
   const calculateNights = (checkin, checkout) => {
@@ -98,17 +94,17 @@ const BookingForm = ({ onClose }) => {
     e.preventDefault();
     setErrorMessage(null);
 
-    if (!['patia', 'niladri-vihar'].includes(formData.location)) {
-      setErrorMessage('Please select a valid location.');
+    if (!["patia", "niladri-vihar"].includes(formData.location)) {
+      setErrorMessage("Please select a valid location.");
       return;
     }
     const nights = calculateNights(formData.checkin, formData.checkout);
     if (nights <= 0 || isNaN(nights)) {
-      setErrorMessage('Please select valid check-in and check-out dates.');
+      setErrorMessage("Please select valid check-in and check-out dates.");
       return;
     }
     if (parseInt(formData.adults, 10) < 1) {
-      setErrorMessage('At least 1 adult required.');
+      setErrorMessage("At least 1 adult required.");
       return;
     }
     if (parseInt(formData.adults, 10) > MAX_ADULTS) {
@@ -120,19 +116,21 @@ const BookingForm = ({ onClose }) => {
       return;
     }
     if (parseInt(formData.rooms) < minRooms) {
-      setErrorMessage(`Minimum rooms required for ${formData.adults} adults and ${formData.children} children is ${minRooms}.`);
+      setErrorMessage(
+        `Minimum rooms required for ${formData.adults} adults and ${formData.children} children is ${minRooms}.`
+      );
       return;
     }
     const paymentInfo = {
       ...formData,
       nights,
       baseAmount: PROPERTY_PRICES[formData.location] || 1200,
-      qrImageUrl: '/static/payment-qr.png',
+      qrImageUrl: "/static/payment-qr.png",
     };
-    if (formData.location === 'patia') {
-      navigate('/enliven-patia/payment', { state: paymentInfo });
-    } else if (formData.location === 'niladri-vihar') {
-      navigate('/enliven-niladri/payment', { state: paymentInfo });
+    if (formData.location === "patia") {
+      navigate("/enliven-patia/payment", { state: paymentInfo });
+    } else if (formData.location === "niladri-vihar") {
+      navigate("/enliven-niladri/payment", { state: paymentInfo });
     }
     if (onClose) onClose();
   };
@@ -143,11 +141,15 @@ const BookingForm = ({ onClose }) => {
         <h2 className="text-2xl xs:text-3xl font-bold font-heading text-primary mb-2">
           Book Your Stay
         </h2>
-        <p className="text-gray-600 font-content">Experience luxury at Hotel Enliven</p>
+        <p className="text-gray-600 font-content">
+          Experience luxury at Hotel Enliven
+        </p>
         <div className="w-24 h-1 bg-secondary mx-auto mt-3 rounded-full"></div>
       </div>
       {errorMessage && (
-        <div className="text-red-600 font-semibold mb-4 text-center">{errorMessage}</div>
+        <div className="text-red-600 font-semibold mb-4 text-center">
+          {errorMessage}
+        </div>
       )}
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Location */}
@@ -159,16 +161,23 @@ const BookingForm = ({ onClose }) => {
             className="w-full text-sm sm:text-base px-2 py-2 sm:px-3 sm:py-3 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none transition-all duration-300 leading-tight"
             required
           >
-            <option value="" disabled>Choose Location</option>
+            <option value="" disabled>
+              Choose Location
+            </option>
             <option value="niladri-vihar">Niladri Vihar, Bhubaneswar</option>
             <option value="patia">Patia, Bhubaneswar</option>
           </select>
         </div>
 
-        {/* Date Selection with Labels */}
+        {/* Date Selection */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="checkin" className="block mb-1 font-semibold text-sm text-gray-700">Check-in Date</label>
+            <label
+              htmlFor="checkin"
+              className="block mb-1 font-semibold text-sm text-gray-700"
+            >
+              Check-in Date
+            </label>
             <input
               type="date"
               id="checkin"
@@ -181,7 +190,12 @@ const BookingForm = ({ onClose }) => {
             />
           </div>
           <div>
-            <label htmlFor="checkout" className="block mb-1 font-semibold text-sm text-gray-700">Check-out Date</label>
+            <label
+              htmlFor="checkout"
+              className="block mb-1 font-semibold text-sm text-gray-700"
+            >
+              Check-out Date
+            </label>
             <input
               type="date"
               id="checkout"
@@ -192,7 +206,13 @@ const BookingForm = ({ onClose }) => {
               required
               min={
                 formData.checkin
-                  ? new Date(new Date(formData.checkin).setDate(new Date(formData.checkin).getDate() + 1)).toISOString().slice(0, 10)
+                  ? new Date(
+                      new Date(formData.checkin).setDate(
+                        new Date(formData.checkin).getDate() + 1
+                      )
+                    )
+                      .toISOString()
+                      .slice(0, 10)
                   : getTomorrow()
               }
             />
@@ -233,7 +253,7 @@ const BookingForm = ({ onClose }) => {
           >
             {Array.from({ length: MAX_ADULTS }, (_, i) => i + 1).map((num) => (
               <option key={num} value={num}>
-                {num} Adult{num > 1 ? 's' : ''}
+                {num} Adult{num > 1 ? "s" : ""}
               </option>
             ))}
           </select>
@@ -243,11 +263,13 @@ const BookingForm = ({ onClose }) => {
             onChange={handleInputChange}
             className="w-full text-sm sm:text-base px-2 py-2 sm:px-3 sm:py-3 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none transition-all duration-300 leading-tight"
           >
-            {Array.from({ length: MAX_CHILDREN + 1 }, (_, i) => i).map((num) => (
-              <option key={num} value={num}>
-                {num} Child{num !== 1 ? 'ren' : ''}
-              </option>
-            ))}
+            {Array.from({ length: MAX_CHILDREN + 1 }, (_, i) => i).map(
+              (num) => (
+                <option key={num} value={num}>
+                  {num} Child{num !== 1 ? "ren" : ""}
+                </option>
+              )
+            )}
           </select>
           <select
             name="rooms"
@@ -255,16 +277,33 @@ const BookingForm = ({ onClose }) => {
             onChange={handleInputChange}
             className="w-full text-sm sm:text-base px-2 py-2 sm:px-3 sm:py-3 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none transition-all duration-300 leading-tight"
           >
-            {Array.from({ length: MAX_ROOMS - minRooms + 1 }, (_, i) => i + minRooms).map((val) => (
-              <option key={val} value={val}>{val} Room{val > 1 ? 's' : ''}</option>
+            {Array.from(
+              { length: MAX_ROOMS - minRooms + 1 },
+              (_, i) => i + minRooms
+            ).map((val) => (
+              <option key={val} value={val}>
+                {val} Room{val > 1 ? "s" : ""}
+              </option>
             ))}
           </select>
         </div>
 
         <p className="mt-1 text-xs text-gray-500 font-content">
-          <span className="font-semibold text-secondary">Note:</span> Each room allows <span className="font-semibold">up to 2 adults and 1 child (age below 6)</span>.<br />
+          <span className="font-semibold text-secondary">Note:</span> Each room
+          allows{" "}
+          <span className="font-semibold">
+            up to 2 adults and 1 child (age below 6)
+          </span>
+          .<br />
           <span>
-            See our <Link to="/refund-policy" className="underline text-secondary hover:text-primary">refund policy</Link>.
+            See our{" "}
+            <Link
+              to="/refund-policy"
+              className="underline text-secondary hover:text-primary"
+            >
+              refund policy
+            </Link>
+            .
           </span>
         </p>
 
