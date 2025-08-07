@@ -129,7 +129,7 @@ const BookingForm = ({ onClose }) => {
     };
     if (formData.location === "patia") {
       navigate("/enliven-patia/payment", { state: paymentInfo });
-    } else if (formData.location === "niladri-vihar") {
+    } else if (formData.location === "niladri") {
       navigate("/enliven-niladri/payment", { state: paymentInfo });
     }
     if (onClose) onClose();
