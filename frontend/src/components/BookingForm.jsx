@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 
 const PROPERTY_PRICES = {
   patia: 1200,
-  "niladri": 1500,
+  Niladri: 1500,
 };
 
 const getToday = () => new Date().toISOString().slice(0, 10);
