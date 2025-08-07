@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 
 const PROPERTY_PRICES = {
   patia: 1200,
-  "niladri-vihar": 1500,
+  "niladri": 1500,
 };
 
 const getToday = () => new Date().toISOString().slice(0, 10);
@@ -94,7 +94,7 @@ const BookingForm = ({ onClose }) => {
     e.preventDefault();
     setErrorMessage(null);
 
-    if (!["patia", "niladri-vihar"].includes(formData.location)) {
+    if (!["patia", "niladri"].includes(formData.location)) {
       setErrorMessage("Please select a valid location.");
       return;
     }
@@ -164,7 +164,7 @@ const BookingForm = ({ onClose }) => {
             <option value="" disabled>
               Choose Location
             </option>
-            <option value="niladri-vihar">Niladri Vihar, Bhubaneswar</option>
+            <option value="niladri">Niladri Vihar, Bhubaneswar</option>
             <option value="patia">Patia, Bhubaneswar</option>
           </select>
         </div>

@@ -58,7 +58,7 @@ const EnlivenPatia = () => {
   const handleBookingSubmit = (formData) => {
     setErrorMessage(null);
 
-    const bookingData = { ...formData, location: "Patia" };
+    const bookingData = { ...formData, location: "patia" };
     const nights = calculateNights(bookingData.checkin, bookingData.checkout);
     if (nights <= 0 || isNaN(nights)) {
       setErrorMessage("Please enter valid check-in and check-out dates.");

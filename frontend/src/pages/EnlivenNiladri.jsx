@@ -59,7 +59,7 @@ const EnlivenNiladri = () => {
   const handleBookingSubmit = (formData) => {
     setErrorMessage(null);
 
-    const bookingData = { ...formData, location: "niladri-vihar" };
+    const bookingData = { ...formData, location: "niladri" };
 
     const nights = calculateNights(bookingData.checkin, bookingData.checkout);
     if (nights <= 0 || isNaN(nights)) {
