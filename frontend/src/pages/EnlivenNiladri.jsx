@@ -1,16 +1,13 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaWhatsapp, FaPhone } from "react-icons/fa";
+import { FaMapMarkerAlt, FaWhatsapp, FaPhone } from "react-icons/fa";
+
 import Amenities from "../components/Amenities";
 import MiniBookingForm from "../components/MiniBookingForm";
 import RoomCarousel from "../components/RoomCarousel";
+import NiladriReviews from "../components/NiladriReviews";
 
-const images = [
-  "/banq1.jpg",
-  "/banq2.jpg",
-  "/reception2.jpg",
-  "/room2.jpg",
-];
+const images = ["/room2.jpg", "/room1.jpg"];
 
 const PROPERTY_PRICES = {
   Patia: 1200,
@@ -107,21 +104,25 @@ const EnlivenNiladri = () => {
               </span>
             </div>
             {/* Location */}
+            {/* Location */}
             <div className="mb-3">
               <span className="font-semibold text-primary font-heading text-lg">
                 Location
               </span>
-              <div>
+              <div className="flex items-center mt-1">
+                <FaMapMarkerAlt className="w-4 h-4 mr-2 text-secondary flex-shrink-0" />
                 <a
                   href="https://maps.app.goo.gl/NcPc85GWScYvafJ26"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-secondary underline font-content text-base hover:text-primary"
                 >
-                  Niladri Vihar, Near Care Hospital (Backside of KV-4), Bhubaneswar - 751021
+                  Niladri Vihar, Near Care Hospital (Backside of KV-4),
+                  Bhubaneswar - 751021
                 </a>
               </div>
             </div>
+
             {/* Contacts */}
             <div className="mb-3">
               <span className="font-semibold text-primary font-heading text-lg">
@@ -180,9 +181,16 @@ const EnlivenNiladri = () => {
               About this room
             </h2>
             <p className="text-gray-700 font-content leading-relaxed text-lg">
-              Nestled in one of Bhubaneswar's most serene and well-connected neighborhoods, Enliven Residency—Niladri Vihar is your gateway to a refined yet restful stay. Our hotel blends the warmth of traditional Odia hospitality with modern amenities, offering both business and leisure travellers a tranquil escape without compromising on convenience.
-
-              Whether you're visiting Bhubaneswar for work, family events, or simply to explore the heritage-rich capital of Odisha, Enliven Niladri Vihar welcomes you with genuine care, a quiet atmosphere, and the assurance of a truly restful experience.
+              Nestled in one of Bhubaneswar's most serene and well-connected
+              neighborhoods, Enliven Residency—Niladri Vihar is your gateway to
+              a refined yet restful stay. Our hotel blends the warmth of
+              traditional Odia hospitality with modern amenities, offering both
+              business and leisure travellers a tranquil escape without
+              compromising on convenience. Whether you're visiting Bhubaneswar
+              for work, family events, or simply to explore the heritage-rich
+              capital of Odisha, Enliven Niladri Vihar welcomes you with genuine
+              care, a quiet atmosphere, and the assurance of a truly restful
+              experience.
             </p>
           </div>
         </div>
@@ -197,7 +205,7 @@ const EnlivenNiladri = () => {
           <MiniBookingForm onSubmit={handleBookingSubmit} />
         </div>
       </div>
-
+      <NiladriReviews />
       <Amenities />
     </div>
   );

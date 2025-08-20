@@ -2,14 +2,11 @@ import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import MiniBookingForm from "../components/MiniBookingForm";
-import { FaWhatsapp, FaPhone } from "react-icons/fa";
+import { FaWhatsapp, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
 import Amenities from "../components/Amenities";
 import RoomCarousel from "../components/RoomCarousel";
 
-const images = [
-  "/room2.jpg",
-  "/room1.jpg"
-];
+const images = ["/room2.jpg", "/room1.jpg"];
 
 const PROPERTY_PRICES = {
   Patia: 1200,
@@ -106,11 +103,13 @@ const EnlivenPatia = () => {
               </span>
             </div>
             {/* Location */}
+            {/* Location */}
             <div className="mb-3">
               <span className="font-semibold text-primary font-heading text-lg">
                 Location
               </span>
-              <div>
+              <div className="flex items-center mt-1">
+                <FaMapMarkerAlt className="w-4 h-4 mr-2 text-secondary flex-shrink-0" />
                 <a
                   href="https://goo.gl/maps/x5rQP..."
                   target="_blank"
@@ -121,6 +120,7 @@ const EnlivenPatia = () => {
                 </a>
               </div>
             </div>
+            
             {/* Contacts */}
             <div className="mb-3">
               <span className="font-semibold text-primary font-heading text-lg">
@@ -180,9 +180,16 @@ const EnlivenPatia = () => {
               About this room
             </h2>
             <p className="text-gray-700 font-content leading-relaxed text-lg">
-              Positioned in the vibrant heart of Bhubaneswar’s fast-growing Patia district, Enliven Residency—Patia brings a remarkable blend of contemporary style, unmatched convenience, and gracious service to the city’s hospitality scene. Our hotel caters equally to discerning business travellers, vacationing families, and guests seeking a seamless, rejuvenating stay near the city’s IT corridor, shopping hubs, and universities.
-
-              From quick business stopovers to extended city breaks, Enliven Residency, Patia is your home in Bhubaneswar—where urban sophistication meets heartfelt Odia hospitality.
+              Positioned in the vibrant heart of Bhubaneswar’s fast-growing
+              Patia district, Enliven Residency—Patia brings a remarkable blend
+              of contemporary style, unmatched convenience, and gracious service
+              to the city’s hospitality scene. Our hotel caters equally to
+              discerning business travellers, vacationing families, and guests
+              seeking a seamless, rejuvenating stay near the city’s IT corridor,
+              shopping hubs, and universities. From quick business stopovers to
+              extended city breaks, Enliven Residency, Patia is your home in
+              Bhubaneswar—where urban sophistication meets heartfelt Odia
+              hospitality.
             </p>
           </div>
         </div>
