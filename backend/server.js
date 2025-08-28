@@ -34,34 +34,13 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ---- ENVIRONMENT VARIABLES CHECK ---- //
-console.log('Environment Variables Check:', {
-  SMTP_USER: process.env.SMTP_USER ? 'SET' : 'MISSING',
-  SMTP_PASS: process.env.SMTP_PASS ? 'SET' : 'MISSING', 
-  OWNER_EMAIL: process.env.OWNER_EMAIL ? 'SET' : 'MISSING'
-});
-
 // ---- MAIL TRANSPORTER ---- //
 const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false, // Use STARTTLS
+  service: 'gmail',
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
-  tls: {
-    rejectUnauthorized: false
-  }
-});
-
-// Test SMTP connection
-transporter.verify((error, success) => {
-  if (error) {
-    console.error('SMTP Connection Error:', error);
-  } else {
-    console.log('SMTP Server is ready to take our messages');
-  }
 });
 
 // ---- ERROR HANDLING ---- //
@@ -151,7 +130,7 @@ app.post('/api/book', async (req, res) => {
       location,
     } = req.body;
 
-    // Validate
+    //Validate
     if (!name || typeof name !== 'string' || name.trim().length < 2 || name.trim().length > 64)
       return res.status(400).json({ error: 'Name must be between 2 to 64 characters' });
 
@@ -212,23 +191,10 @@ app.post('/api/book', async (req, res) => {
 
     await booking.save();
 
-    // Email notification with improved error handling
     const mailOptions = {
       from: process.env.SMTP_USER,
       to: process.env.OWNER_EMAIL,
       subject: 'New Booking Received - Hotel Enliven',
-      html: `
-        <h2>New Booking Received</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Phone:</strong> ${phone}</p>
-        <p><strong>Check-in:</strong> ${checkin}</p>
-        <p><strong>Check-out:</strong> ${checkout}</p>
-        <p><strong>Adults:</strong> ${adults}</p>
-        <p><strong>Children:</strong> ${children}</p>
-        <p><strong>Rooms:</strong> ${rooms}</p>
-        <p><strong>Location:</strong> ${location}</p>
-        <p><strong>Total Amount:</strong> ₹${totalAmount.toFixed(2)}</p>
-      `,
       text: `
 New booking received:
 Name: ${name}
@@ -242,21 +208,9 @@ Location: ${location}
 Total Amount: ₹${totalAmount.toFixed(2)}
       `
     };
-
-    // Send email with better error handling
-    try {
-      const info = await transporter.sendMail(mailOptions);
-      console.log('Email sent successfully:', info.messageId);
-    } catch (error) {
-      console.error('Email sending failed:', {
-        error: error.message,
-        code: error.code,
-        command: error.command,
-        responseCode: error.responseCode,
-        response: error.response
-      });
-      // Don't fail the booking if email fails
-    }
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) console.error('Error sending notification email:', error);
+    });
 
     res.json({
       success: true,
