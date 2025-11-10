@@ -111,7 +111,7 @@ const EnlivenPatia = () => {
               <div className="flex items-center mt-1">
                 <FaMapMarkerAlt className="w-4 h-4 mr-2 text-secondary flex-shrink-0" />
                 <a
-                  href="https://maps.app.goo.gl/VeW549RsNmQqyk5X7"
+                  href="https://maps.app.goo.gl/GtrbUYU7aNK7CFrH8"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-secondary underline font-content text-base hover:text-primary"
